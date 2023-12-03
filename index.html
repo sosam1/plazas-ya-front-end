@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maps</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+    <main>
+        <div id="map"></div>
+    </main>
+    
+
+    <input id="address-input" type="text" placeholder="Ingrese una dirección en Uruguay">
+    <button id="centerButton">Centrar en la dirección</button>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEVxRt4C_8fqQ7_m80lbPthFaECX-MvJ8&callback=initMap&libraries=places"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>

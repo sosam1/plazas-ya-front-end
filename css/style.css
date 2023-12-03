@@ -1,0 +1,17 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#map{
+    width: 50%;
+    height: 400px;
+    border-radius: 20px;
+}
+
+main{
+    margin-top: 200px;
+    display: flex;
+    justify-content: center;
+}
