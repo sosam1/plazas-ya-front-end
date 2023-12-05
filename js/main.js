@@ -1,3 +1,5 @@
+const URL_PLAZAS = "http://127.0.0.1:8000/api/plaza"
+
 function initMap() {
     var uruguayCoords = { lat: -32.522779, lng: -55.765835 };
 
@@ -44,3 +46,29 @@ function initMap() {
         });
     });
 }
+
+function obtenerTodasLasPlazas(){
+
+    fetch(URL_PLAZAS)
+
+    .then(response => {
+        if (!response.ok) {
+          throw new Error('Error de red o servidor');
+        }
+        return response.json();
+      })
+
+      .then(plazas => {
+        
+
+        console.log(plazas);
+
+
+      })
+
+      .catch(error => {
+        console.error('Hubo un problema con la petición Fetch:', error);
+      });
+}
+
+obtenerTodasLasPlazas()

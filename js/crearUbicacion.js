@@ -20,7 +20,7 @@ function crearUbicacion(e){
             console.log("Longitud: " + longitud);
 
             jQuery.ajax({  
-                url: 'http://127.0.0.1:8000/api/direcciones/', 
+                url: 'http://127.0.0.1:8000/api/plaza/', 
                 type: 'POST',
                 data: {
                     'direccion': direccion,
