@@ -5,18 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maps</title>
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 
     <main>
-        <div id="map"></div>
-    </main>
+
+        <aside class="plazas_container" id="plazas_container"> 
+            <h1>Lugares de interés</h1>
+        </aside>
+
+        <div class="descripcion_container">
+            
+        </div>
+    
+    
+        <div class="container">
+            <h2 class="titulo_mapa">Ubicación</h2>
+            <div id="map"></div>
+        </div>
     
 
-    <input id="address-input" type="text" placeholder="Ingrese una dirección en Uruguay">
-    <button id="centerButton">Centrar en la dirección</button>
-
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEVxRt4C_8fqQ7_m80lbPthFaECX-MvJ8&callback=initMap&libraries=places"></script>
+    </main>
+   
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEVxRt4C_8fqQ7_m80lbPthFaECX-MvJ8&libraries=places"></script>
     <script src="./js/main.js"></script>
 </body>
 </html>
