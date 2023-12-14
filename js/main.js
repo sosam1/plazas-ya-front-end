@@ -30,9 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
         })
 
         .then(plazas => {
-            
-
-            console.log(plazas);
 
             let container_plazas = document.getElementById("plazas_container")
 
@@ -69,8 +66,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 `
 
-            });
+            //buscador de plazas 
+            let search_bar = document.getElementById("searchbar")
+            search_bar.addEventListener("input", function(){
+            
+                const searchTerm = search_bar.value.toLowerCase();
 
+                // Filtra las plazas que coincidan con el término de búsqueda
+                const plazasFiltradas = plazas.filter(plaza =>
+                    plaza.nombre_plaza.toLowerCase().includes(searchTerm)
+                );
+            
+                // Muestra solo las plazas que coinciden con el término de búsqueda
+                container_plazas.innerHTML = ""
+                plazasFiltradas.forEach(plaza => {
+                    const plazaHTML = `
+
+                        <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud})">
+                            <h2 class="plaza_titulo">${plaza.nombre_plaza}</h2>
+                            <p><i class="fa-solid fa-location-dot ubicacion_icono"></i>&nbsp;${plaza.direccion}</p>
+                            <br>
+                            <p>${estrellasHTML} Calificación: ${plaza.valoracion} - ${plaza.cantidad_resenas} opiniones</p>
+                        </div>
+                    `;
+                    container_plazas.innerHTML += plazaHTML;
+                });
+
+            })
+
+            });
 
         })
 
