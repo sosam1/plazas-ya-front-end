@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     
     const URL_PLAZAS = "http://127.0.0.1:8000/api/plaza"
@@ -80,6 +79,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Muestra solo las plazas que coinciden con el término de búsqueda
                 container_plazas.innerHTML = ""
                 plazasFiltradas.forEach(plaza => {
+
+                    const puntuacionRedondeada = Math.floor(plaza.valoracion);
+                    const puntuacionDecimal = plaza.valoracion - puntuacionRedondeada;
+
+                    // Genera las estrellas en HTML
+                    let estrellasHTML = '';
+                    for (let i = 0; i < 5; i++) {
+                        if (i < puntuacionRedondeada) {
+                            estrellasHTML += '<i class="fa-solid fa-star"></i>';
+                        } else if (i === puntuacionRedondeada && puntuacionDecimal > 0) {
+                            // Agrega una estrella parcialmente llena
+                            const opacidad = puntuacionDecimal;
+                            estrellasHTML += `<i class="fa-solid fa-star" style="color: #ffd700; opacity: ${opacidad};"></i>`;
+                        } else {
+                            estrellasHTML += '<i class="fa-regular fa-star"></i>';
+                        }
+                    }
+
                     const plazaHTML = `
 
                         <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud})">
@@ -92,9 +109,195 @@ document.addEventListener('DOMContentLoaded', function() {
                     container_plazas.innerHTML += plazaHTML;
                 });
 
-            })
+                
+                })
 
             });
+
+            //sort de plazas
+
+            let select_sort = document.getElementById("select_orden")
+
+            select_sort.addEventListener("change", function(e){
+
+                let selectedOption = select_sort.selectedOptions[0];
+                let selectedId = selectedOption.id;
+
+                if(selectedId == "mejor_votadas"){
+                    
+                    let plazas_ordenadas = plazas.sort((a, b) => b.valoracion - a.valoracion);
+
+                    container_plazas.innerHTML = ""
+                    
+                    plazas_ordenadas.forEach(plaza =>{
+
+                        const puntuacionRedondeada = Math.floor(plaza.valoracion);
+                        const puntuacionDecimal = plaza.valoracion - puntuacionRedondeada;
+
+                        // Genera las estrellas en HTML
+                        let estrellasHTML = '';
+                        for (let i = 0; i < 5; i++) {
+                            if (i < puntuacionRedondeada) {
+                                estrellasHTML += '<i class="fa-solid fa-star"></i>';
+                            } else if (i === puntuacionRedondeada && puntuacionDecimal > 0) {
+                                // Agrega una estrella parcialmente llena
+                                const opacidad = puntuacionDecimal;
+                                estrellasHTML += `<i class="fa-solid fa-star" style="color: #ffd700; opacity: ${opacidad};"></i>`;
+                            } else {
+                                estrellasHTML += '<i class="fa-regular fa-star"></i>';
+                            }
+                        }
+                        
+                        container_plazas.innerHTML += `
+                        
+                        <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud})">
+
+                        <h2 class="plaza_titulo">${plaza.nombre_plaza}</h2>
+                        
+                        <p><i class="fa-solid fa-location-dot ubicacion_icono"></i>&nbsp;${plaza.direccion}</p>
+                        <br>
+                        <p>${estrellasHTML} Calificación: ${plaza.valoracion} - ${plaza.cantidad_resenas} opiniones</p>
+
+                        </div>
+                        
+                        `
+
+                    })
+                   
+                }
+
+                //menos votadas
+                if(selectedId == "peor_votadas"){
+
+                    let plazas_ordenadas = plazas.sort((a, b) => a.valoracion - b.valoracion);
+
+                    container_plazas.innerHTML = ""
+                    
+                    plazas_ordenadas.forEach(plaza =>{
+
+                        const puntuacionRedondeada = Math.floor(plaza.valoracion);
+                        const puntuacionDecimal = plaza.valoracion - puntuacionRedondeada;
+
+                        // Genera las estrellas en HTML
+                        let estrellasHTML = '';
+                        for (let i = 0; i < 5; i++) {
+                            if (i < puntuacionRedondeada) {
+                                estrellasHTML += '<i class="fa-solid fa-star"></i>';
+                            } else if (i === puntuacionRedondeada && puntuacionDecimal > 0) {
+                                // Agrega una estrella parcialmente llena
+                                const opacidad = puntuacionDecimal;
+                                estrellasHTML += `<i class="fa-solid fa-star" style="color: #ffd700; opacity: ${opacidad};"></i>`;
+                            } else {
+                                estrellasHTML += '<i class="fa-regular fa-star"></i>';
+                            }
+                        }
+                        
+                        container_plazas.innerHTML += `
+                        
+                        <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud})">
+
+                        <h2 class="plaza_titulo">${plaza.nombre_plaza}</h2>
+                        
+                        <p><i class="fa-solid fa-location-dot ubicacion_icono"></i>&nbsp;${plaza.direccion}</p>
+                        <br>
+                        <p>${estrellasHTML} Calificación: ${plaza.valoracion} - ${plaza.cantidad_resenas} opiniones</p>
+
+                        </div>
+                        
+                        `
+
+                    })
+                }
+
+                //mas resenas
+                if(selectedId == "mas_resenas"){
+
+                    let plazas_ordenadas = plazas.sort((a, b) => b.cantidad_resenas - a.cantidad_resenas);
+
+                    container_plazas.innerHTML = ""
+                    
+                    plazas_ordenadas.forEach(plaza =>{
+
+                        const puntuacionRedondeada = Math.floor(plaza.valoracion);
+                        const puntuacionDecimal = plaza.valoracion - puntuacionRedondeada;
+
+                        // Genera las estrellas en HTML
+                        let estrellasHTML = '';
+                        for (let i = 0; i < 5; i++) {
+                            if (i < puntuacionRedondeada) {
+                                estrellasHTML += '<i class="fa-solid fa-star"></i>';
+                            } else if (i === puntuacionRedondeada && puntuacionDecimal > 0) {
+                                // Agrega una estrella parcialmente llena
+                                const opacidad = puntuacionDecimal;
+                                estrellasHTML += `<i class="fa-solid fa-star" style="color: #ffd700; opacity: ${opacidad};"></i>`;
+                            } else {
+                                estrellasHTML += '<i class="fa-regular fa-star"></i>';
+                            }
+                        }
+                        
+                        container_plazas.innerHTML += `
+                        
+                        <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud})">
+
+                        <h2 class="plaza_titulo">${plaza.nombre_plaza}</h2>
+                        
+                        <p><i class="fa-solid fa-location-dot ubicacion_icono"></i>&nbsp;${plaza.direccion}</p>
+                        <br>
+                        <p>${estrellasHTML} Calificación: ${plaza.valoracion} - ${plaza.cantidad_resenas} opiniones</p>
+
+                        </div>
+                        
+                        `
+
+                    })
+                }
+
+                //menos resenas
+                if(selectedId == "menos_resenas"){
+
+                    let plazas_ordenadas = plazas.sort((a, b) => a.cantidad_resenas - b.cantidad_resenas);
+
+                    container_plazas.innerHTML = ""
+                    
+                    plazas_ordenadas.forEach(plaza =>{
+
+                        const puntuacionRedondeada = Math.floor(plaza.valoracion);
+                        const puntuacionDecimal = plaza.valoracion - puntuacionRedondeada;
+
+                        // Genera las estrellas en HTML
+                        let estrellasHTML = '';
+                        for (let i = 0; i < 5; i++) {
+                            if (i < puntuacionRedondeada) {
+                                estrellasHTML += '<i class="fa-solid fa-star"></i>';
+                            } else if (i === puntuacionRedondeada && puntuacionDecimal > 0) {
+                                // Agrega una estrella parcialmente llena
+                                const opacidad = puntuacionDecimal;
+                                estrellasHTML += `<i class="fa-solid fa-star" style="color: #ffd700; opacity: ${opacidad};"></i>`;
+                            } else {
+                                estrellasHTML += '<i class="fa-regular fa-star"></i>';
+                            }
+                        }
+                        
+                        container_plazas.innerHTML += `
+                        
+                        <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud})">
+
+                        <h2 class="plaza_titulo">${plaza.nombre_plaza}</h2>
+                        
+                        <p><i class="fa-solid fa-location-dot ubicacion_icono"></i>&nbsp;${plaza.direccion}</p>
+                        <br>
+                        <p>${estrellasHTML} Calificación: ${plaza.valoracion} - ${plaza.cantidad_resenas} opiniones</p>
+
+                        </div>
+                        
+                        `
+
+                    })
+                }
+
+
+            })
+
 
         })
 

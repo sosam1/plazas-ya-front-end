@@ -48,6 +48,11 @@ body{
     font-size: 16px;
 }
 
+.select-p{
+    margin-top: 20px;
+    margin-left: auto;
+}
+
 .container{
     width: 30vw;
     display: flex;
@@ -58,7 +63,7 @@ body{
 }
 
 .titulo_mapa{
-    margin-top: 200px;
+    margin-top: 50px;
 }
 
 #map{
@@ -84,6 +89,7 @@ main{
     background-color: #252E38;
     border-radius: 20px;
     margin-top: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .plaza_objeto:hover{
