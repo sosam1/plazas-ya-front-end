@@ -13,18 +13,16 @@
 
         <aside class="aside" id="aside"> 
             <h1>Lugares de interés</h1>
-            <input type="text" id="searchbar" class="buscador">
+            <input placeholder="¿Desde dónde vas?" type="text" id="ubicacion" class="buscador">
+            <input placeholder="¿A dónde queres ir?" type="text" id="searchbar" class="buscador">
 
-            <p class="select-p">Ordenar por:
-            <select id="select_orden">
-                <option selected disabled>Seleccionar</option>
-                <option id="mejor_votadas">Mejor votadas</option>
-                <option id="mas_resenas">Más reseñas</option>
-                <option id="menos_resenas">Menos reseñas</option>
-                <option id="peor_votadas">Peor votadas</option>
+            <p class="select-p">Ordenar por:  
+            <select id="select_orden" class="select">
+                <option class="dropdown-item" selected disabled>Seleccionar</option>
+                <option class="dropdown-item" id="mejor_votadas">Mejor votadas</option>
+                <option class="dropdown-item" id="mas_resenas">Más reseñas</option>
             </select>
             </p>
-
 
             <div class="plazas_container" id="plazas_container">
 
@@ -44,7 +42,7 @@
     
 
     </main>
-   
+    
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEVxRt4C_8fqQ7_m80lbPthFaECX-MvJ8&libraries=places"></script>
     <script src="./js/main.js"></script>
 </body>

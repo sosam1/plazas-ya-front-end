@@ -46,11 +46,25 @@ body{
     outline: none;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
+    margin-top: 20px;
 }
 
 .select-p{
     margin-top: 20px;
     margin-left: auto;
+}
+
+.select{
+    background-color: #15202B;
+    color: rgba(255, 255, 255, 0.717);
+    outline: none;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+}
+
+.select:hover{
+    color: white;
 }
 
 .container{

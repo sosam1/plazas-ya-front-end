@@ -165,50 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                    
                 }
-
-                //menos votadas
-                if(selectedId == "peor_votadas"){
-
-                    let plazas_ordenadas = plazas.sort((a, b) => a.valoracion - b.valoracion);
-
-                    container_plazas.innerHTML = ""
-                    
-                    plazas_ordenadas.forEach(plaza =>{
-
-                        const puntuacionRedondeada = Math.floor(plaza.valoracion);
-                        const puntuacionDecimal = plaza.valoracion - puntuacionRedondeada;
-
-                        // Genera las estrellas en HTML
-                        let estrellasHTML = '';
-                        for (let i = 0; i < 5; i++) {
-                            if (i < puntuacionRedondeada) {
-                                estrellasHTML += '<i class="fa-solid fa-star"></i>';
-                            } else if (i === puntuacionRedondeada && puntuacionDecimal > 0) {
-                                // Agrega una estrella parcialmente llena
-                                const opacidad = puntuacionDecimal;
-                                estrellasHTML += `<i class="fa-solid fa-star" style="color: #ffd700; opacity: ${opacidad};"></i>`;
-                            } else {
-                                estrellasHTML += '<i class="fa-regular fa-star"></i>';
-                            }
-                        }
-                        
-                        container_plazas.innerHTML += `
-                        
-                        <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud})">
-
-                        <h2 class="plaza_titulo">${plaza.nombre_plaza}</h2>
-                        
-                        <p><i class="fa-solid fa-location-dot ubicacion_icono"></i>&nbsp;${plaza.direccion}</p>
-                        <br>
-                        <p>${estrellasHTML} Calificación: ${plaza.valoracion} - ${plaza.cantidad_resenas} opiniones</p>
-
-                        </div>
-                        
-                        `
-
-                    })
-                }
-
+                
                 //mas resenas
                 if(selectedId == "mas_resenas"){
 
@@ -251,51 +208,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     })
                 }
-
-                //menos resenas
-                if(selectedId == "menos_resenas"){
-
-                    let plazas_ordenadas = plazas.sort((a, b) => a.cantidad_resenas - b.cantidad_resenas);
-
-                    container_plazas.innerHTML = ""
-                    
-                    plazas_ordenadas.forEach(plaza =>{
-
-                        const puntuacionRedondeada = Math.floor(plaza.valoracion);
-                        const puntuacionDecimal = plaza.valoracion - puntuacionRedondeada;
-
-                        // Genera las estrellas en HTML
-                        let estrellasHTML = '';
-                        for (let i = 0; i < 5; i++) {
-                            if (i < puntuacionRedondeada) {
-                                estrellasHTML += '<i class="fa-solid fa-star"></i>';
-                            } else if (i === puntuacionRedondeada && puntuacionDecimal > 0) {
-                                // Agrega una estrella parcialmente llena
-                                const opacidad = puntuacionDecimal;
-                                estrellasHTML += `<i class="fa-solid fa-star" style="color: #ffd700; opacity: ${opacidad};"></i>`;
-                            } else {
-                                estrellasHTML += '<i class="fa-regular fa-star"></i>';
-                            }
-                        }
-                        
-                        container_plazas.innerHTML += `
-                        
-                        <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud})">
-
-                        <h2 class="plaza_titulo">${plaza.nombre_plaza}</h2>
-                        
-                        <p><i class="fa-solid fa-location-dot ubicacion_icono"></i>&nbsp;${plaza.direccion}</p>
-                        <br>
-                        <p>${estrellasHTML} Calificación: ${plaza.valoracion} - ${plaza.cantidad_resenas} opiniones</p>
-
-                        </div>
-                        
-                        `
-
-                    })
-                }
-
-
             })
 
 
