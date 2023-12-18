@@ -11,6 +11,16 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        let inputDireccion = document.getElementById('ubicacion');
+        let autocomplete = new google.maps.places.Autocomplete(inputDireccion);
+
+        autocomplete.addListener('place_changed', function () {
+            let place = autocomplete.getPlace();
+            if (place.geometry) {
+                latitud = place.geometry.location.lat();
+                longitud = place.geometry.location.lng();
+            }
+        });
         
 
     }
@@ -210,6 +220,86 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
 
+            //funciones para encontrar plazas mas cercana
+
+            function encontrarPlazaMasCercana(usuarioLatitud, usuarioLongitud) {
+                let plazaMasCercana = null;
+                let distanciaMinima = 20;
+            
+                plazas.forEach(plaza => {
+                    const distancia = calcularDistancia(usuarioLatitud, usuarioLongitud, plaza.latitud, plaza.longitud);
+            
+                    if (distancia < distanciaMinima) {
+                        distanciaMinima = distancia;
+                        plazaMasCercana = plaza;
+                    }
+                });
+                
+                console.log(plazaMasCercana)
+                return plazaMasCercana;
+            }
+            
+            //necesario para encontrarPlazaMasCercana()
+            function calcularDistancia(latitud1, longitud1, latitud2, longitud2) {
+                const R = 6371; // Radio de la Tierra en kilómetros
+                const dLat = toRadians(latitud2 - latitud1);
+                const dLon = toRadians(longitud2 - longitud1);
+            
+                const a =
+                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(toRadians(latitud1)) * Math.cos(toRadians(latitud2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                const distancia = R * c;
+            
+                return distancia;
+            }
+            
+            //necesario para calcularDistancia()
+            function toRadians(grados) {
+                return grados * (Math.PI / 180);
+            }
+            
+            let input_ubicacion_usuario = document.getElementById("ubicacion")
+            input_ubicacion_usuario.addEventListener("change", function(){
+                    
+                const geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ address: input_ubicacion_usuario.value }, function (results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        // Obtener la latitud y longitud de la primera ubicación encontrada
+                        latitud = results[0].geometry.location.lat();
+                        longitud = results[0].geometry.location.lng();
+        
+                        console.log("latidud " + latitud + " " + "longitud: " + longitud)
+        
+                        let mapOptions = {
+                            center: { lat: latitud, lng: longitud },
+                            zoom: 6,
+                        };
+        
+                        let map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                        let marker;
+                        let ubicacion = new google.maps.LatLng(latitud, longitud);
+                        map.setCenter(ubicacion);
+                        map.setZoom(15);
+        
+                        if (marker) {
+                            marker.setMap(null);
+                        }
+        
+                        marker = new google.maps.Marker({
+                            position: ubicacion,
+                            map: map,
+                            title: 'Ubicación'
+                        });
+        
+                        encontrarPlazaMasCercana(latitud, longitud)
+                        
+                    }
+                });  
+                
+            })
+
 
         })
 
@@ -232,8 +322,6 @@ document.addEventListener('DOMContentLoaded', function() {
             map: map,
             title: 'Ubicación de la plaza'
         });
-
-        
 
     };
 
