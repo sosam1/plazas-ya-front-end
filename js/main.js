@@ -221,6 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
 
             //funciones para encontrar plazas mas cercana
+            plazas_ordenadas_por_cercania = []
 
             function encontrarPlazaMasCercana(usuarioLatitud, usuarioLongitud) {
                 let plazaMasCercana = null;
@@ -228,14 +229,17 @@ document.addEventListener('DOMContentLoaded', function() {
             
                 plazas.forEach(plaza => {
                     const distancia = calcularDistancia(usuarioLatitud, usuarioLongitud, plaza.latitud, plaza.longitud);
-            
+                    
                     if (distancia < distanciaMinima) {
-                        distanciaMinima = distancia;
                         plazaMasCercana = plaza;
+                        plazas_ordenadas_por_cercania.push({ plaza, distancia });
+                        
                     }
+                    
                 });
-                
-                console.log(plazaMasCercana)
+
+                plazas_ordenadas_por_cercania.sort((a, b) => a.distancia - b.distancia);
+
                 return plazaMasCercana;
             }
             
