@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
         })
 
         .then(plazas => {
-
             let container_plazas = document.getElementById("plazas_container")
 
             plazas.forEach(plaza => {
@@ -63,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 container_plazas.innerHTML += `
                 
-                <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud})">
+                <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud}, '${plaza.nombre_plaza}', '${plaza.direccion}' ,${plaza.valoracion}, ${plaza.cantidad_resenas}, '${plaza.descripcion}', ${plaza.id})">
 
                 <h2 class="plaza_titulo">${plaza.nombre_plaza}</h2>
                 
@@ -74,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 
                 `
-
             //buscador de plazas 
             let search_bar = document.getElementById("searchbar")
             search_bar.addEventListener("input", function(){
@@ -109,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     const plazaHTML = `
 
-                        <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud})">
+                        <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud}, '${plaza.nombre_plaza}', '${plaza.direccion}' ,${plaza.valoracion}, ${plaza.cantidad_resenas}, '${plaza.descripcion}', ${plaza.id})">
                             <h2 class="plaza_titulo">${plaza.nombre_plaza}</h2>
                             <p><i class="fa-solid fa-location-dot ubicacion_icono"></i>&nbsp;${plaza.direccion}</p>
                             <br>
@@ -160,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         container_plazas.innerHTML += `
                         
-                        <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud})">
+                        <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud}, '${plaza.nombre_plaza}', '${plaza.direccion}' ,${plaza.valoracion}, ${plaza.cantidad_resenas}, '${plaza.descripcion}', ${plaza.id})">
 
                         <h2 class="plaza_titulo">${plaza.nombre_plaza}</h2>
                         
@@ -204,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         container_plazas.innerHTML += `
                         
-                        <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud})">
+                        <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${plaza.latitud}, ${plaza.longitud}, '${plaza.nombre_plaza}', '${plaza.direccion}' ,${plaza.valoracion}, ${plaza.cantidad_resenas}, '${plaza.descripcion}', ${plaza.id})">
 
                         <h2 class="plaza_titulo">${plaza.nombre_plaza}</h2>
                         
@@ -219,11 +217,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                 }
             })
-
-            //funciones para encontrar plazas mas cercana
-            plazas_ordenadas_por_cercania = []
+            
+            //funcion para encontrar plazas cercanas
 
             function encontrarPlazaMasCercana(usuarioLatitud, usuarioLongitud) {
+
+                plazas_ordenadas_por_cercania = []
                 let plazaMasCercana = null;
                 let distanciaMinima = 20;
             
@@ -239,6 +238,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 plazas_ordenadas_por_cercania.sort((a, b) => a.distancia - b.distancia);
+
+                container_plazas.innerHTML = ""
+                
+                plazas_ordenadas_por_cercania.forEach(e =>{
+
+                    const puntuacionRedondeada = Math.floor(e.plaza.valoracion);
+                    const puntuacionDecimal = e.plaza.valoracion - puntuacionRedondeada;
+
+                        // Genera las estrellas en HTML
+                        let estrellasHTML = '';
+                        for (let i = 0; i < 5; i++) {
+                            if (i < puntuacionRedondeada) {
+                                estrellasHTML += '<i class="fa-solid fa-star"></i>';
+                            } else if (i === puntuacionRedondeada && puntuacionDecimal > 0) {
+                                // Agrega una estrella parcialmente llena
+                                const opacidad = puntuacionDecimal;
+                                estrellasHTML += `<i class="fa-solid fa-star" style="color: #ffd700; opacity: ${opacidad};"></i>`;
+                            } else {
+                                estrellasHTML += '<i class="fa-regular fa-star"></i>';
+                            }
+                        }
+
+                    container_plazas.innerHTML += `
+                        
+                        <div class="plaza_objeto" onclick="buscarPlazaEnMapa(${e.plaza.latitud}, ${e.plaza.longitud}, '${e.plaza.nombre_plaza}', '${e.plaza.direccion}' ,${e.plaza.valoracion}, ${e.plaza.cantidad_resenas}, '${e.plaza.descripcion}', ${e.plaza.id})">
+
+                        <h2 class="plaza_titulo">${e.plaza.nombre_plaza}</h2>
+                        
+                        <p><i class="fa-solid fa-location-dot ubicacion_icono"></i>&nbsp;${e.plaza.direccion}</p>
+                        <br>
+                        <p>${estrellasHTML} Calificación: ${e.plaza.valoracion} - ${e.plaza.cantidad_resenas} opiniones</p>
+
+                        </div>
+                        
+                        `
+
+                })
 
                 return plazaMasCercana;
             }
@@ -314,7 +350,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     obtenerTodasLasPlazas()
 
-    window.buscarPlazaEnMapa = function(latitud, longitud) {
+    function obtenerTodasLasResenasDeUnaPlaza(id_plaza){
+
+        const URL_RESEÑAS = "http://127.0.0.1:8000/api/resena/plaza/"+id_plaza
+
+        fetch(URL_RESEÑAS)
+
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Error de red o servidor');
+            }
+            return response.json();
+        })
+
+        .then(reseñas => {
+            console.log(reseñas)
+        })
+
+        .catch(error => {
+            console.error('Hubo un problema con la petición Fetch:', error);
+        });
+
+    }
+
+
+    //ademas de buscar pone los datos de la descripcion
+    window.buscarPlazaEnMapa = function(latitud, longitud, nombre_plaza, direccion, valoracion, cantidad_resenas, descripcion, id) {
+        
+        obtenerTodasLasResenasDeUnaPlaza(id)
         
         var map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: latitud, lng: longitud },
@@ -326,6 +389,22 @@ document.addEventListener('DOMContentLoaded', function() {
             map: map,
             title: 'Ubicación de la plaza'
         });
+
+        //info de las plazas
+        let info_plaza_container = document.getElementById("info_plazas")
+        
+        info_plaza_container.innerHTML = `
+        
+            <h2 class="info_plaza_titulo">${nombre_plaza} (${valoracion})</h2>
+            <h3 class="info_plaza_direccion">Dirección: ${direccion}</h3>
+            <p class="info_plaza_descripcion">Descripción: ${descripcion}</p>
+            <h2>Reseñas (${cantidad_resenas})</h2>
+            <hr>
+            <div class="resenas_container">
+
+            </div>
+        
+        `
 
     };
 
