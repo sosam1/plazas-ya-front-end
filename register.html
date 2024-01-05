@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
+    <link rel="stylesheet" href="./css/registro.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
 <body>
-
-        <input id="userInput" name="usuario">
-        <input id="emailInput" name="email">
-        <input id="passInput" name="password">
-        <input id="pass2Input" name="password_confirmation">
-        <button type="submit" onclick="crearUsuario()">Crear usuario</button>
-
-
+        <div class="formulario">
+            <h1>Registro</h1>
+            <input id="userInput" name="usuario" placeholder="Nombre de usuario">
+            <input id="emailInput" name="email" placeholder="Email">
+            <input id="passInput" name="password" placeholder="Contraseña">
+            <input id="pass2Input" name="password_confirmation" placeholder="Confirmación de contrseña">
+            <button class="button-65" type="submit" onclick="crearUsuario()">Crear usuario</button>
+        </div>
+        
 
     <script src="./js/register.js"></script>
 </body>
