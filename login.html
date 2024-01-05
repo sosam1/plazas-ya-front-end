@@ -5,12 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="./css/login.css">
 </head>
 <body>
     
-    <input id="userInput" type="text" name="username">
-    <input id="passInput" type="password" name="password">
-    <button onclick="login()">loguear</button>
+    <div class="formulario">
+        <h1>Login</h1>
+        <input id="userInput" type="text" name="username" placeholder="Usuario">
+        <input id="passInput" type="password" name="password" placeholder="Contraseña">
+        <a href="#">¿No puedes ingresar?</a>
+        <button class="button-65" onclick="login()">Login</button>
+    </div>
+    
 
 
     <script src="./js/login.js"></script>
